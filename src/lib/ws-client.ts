@@ -2,8 +2,10 @@ import type { WsEvent } from "./types";
 import { WsEventSchema, safeParse } from "./schemas";
 
 // WebSocket client with exponential-backoff reconnect and strict validation.
-// Reconnects never create duplicate terminal sessions — session lifecycle is
-// owned by the runtime; this client only re-attaches to the event stream.
+// Authentication uses a first-message handshake (browsers cannot set headers
+// on WS upgrades): the client sends { type: "auth", token } immediately after
+// the socket opens. Reconnects never create duplicate terminal sessions —
+// session lifecycle is owned by the runtime; this client only re-attaches.
 
 type Handler = (e: WsEvent) => void;
 
@@ -13,9 +15,11 @@ export class WsClient {
   private retryMs = 1000;
   private closed = false;
   private url: string;
+  private getToken: () => string | null;
 
-  constructor(url: string) {
+  constructor(url: string, getToken: () => string | null = () => null) {
     this.url = url;
+    this.getToken = getToken;
     this.connect();
   }
 
@@ -27,7 +31,11 @@ export class WsClient {
       this.schedule();
       return;
     }
-    this.socket.onopen = () => { this.retryMs = 1000; };
+    this.socket.onopen = () => {
+      this.retryMs = 1000;
+      const token = this.getToken();
+      if (token) this.socket?.send(JSON.stringify({ type: "auth", token }));
+    };
     this.socket.onmessage = (ev) => {
       try {
         const raw = JSON.parse(String(ev.data));

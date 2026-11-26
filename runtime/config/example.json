@@ -1,0 +1,16 @@
+{
+  "stationId": "station-xxxxxxxx",
+  "stationName": "Founda Dock Station",
+  "host": "127.0.0.1",
+  "port": 4310,
+  "workspaceRoots": ["/data/data/com.termux/files/home/founda-dock/projects"],
+  "defaultShell": "bash",
+  "sessionTtlHours": 168,
+  "pairingTtlSeconds": 300,
+  "pairingMaxAttempts": 5,
+  "pairingWindowSeconds": 600,
+  "metricsIntervalMs": 5000,
+  "maxWsConnections": 20,
+  "opencodeBin": "opencode",
+  "openclawBin": "openclaw"
+}
