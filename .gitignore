@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# next
+.next/
+out/
+build/
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+next-env.d.ts
