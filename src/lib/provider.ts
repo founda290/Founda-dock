@@ -26,6 +26,7 @@ export interface StationProvider {
   deleteSession(id: string): Promise<void>;
   terminalSocketUrl(sessionId: string): string;
   sendTerminalInput(sessionId: string, data: string): void;
+  attachTerminal(sessionId: string): void;
   resizeTerminal(sessionId: string, cols: number, rows: number): void;
 
   listWorkspaces(): Promise<Workspace[]>;

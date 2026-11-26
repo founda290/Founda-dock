@@ -170,6 +170,7 @@ export class MockStationProvider implements StationProvider {
     emit({ type: "terminal.output", ts: iso(now()), payload: { sessionId, data: echo } });
   }
   resizeTerminal() { /* no-op in mock */ }
+  attachTerminal() { /* no-op in mock */ }
 
   async listWorkspaces() { await delay(120); return workspaces.map((w) => ({ ...w })); }
   async getWorkspace(id: string): Promise<WorkspaceDetail> {

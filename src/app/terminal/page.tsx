@@ -80,6 +80,7 @@ export default function TerminalPage() {
     t.writeln(`\x1b[90m# Founda Dock terminal — ${active.name} (${active.id})\x1b[0m`);
     t.writeln(`\x1b[90m# cwd: ${active.cwd} · status: ${active.status}\x1b[0m`);
     t.writeln("");
+    provider.attachTerminal(active.id);
     const unsub = provider.subscribe((e) => {
       if (e.type === "terminal.output") {
         const p = e.payload as { sessionId: string; data: string };
